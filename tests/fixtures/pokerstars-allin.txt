@@ -1,0 +1,34 @@
+PokerStars Hand #234567890200: Tournament #3456789012, $10.00+$1.00 USD Hold'em No Limit - Level XX (1000/2000) - 2024/01/15 23:10:00 CET [2024/01/15 17:10:00 ET]
+Table '3456789012 5' 9-max Seat #2 is the button
+Seat 1: ShortStack (5400 in chips)
+Seat 2: HeroName (32000 in chips)
+Seat 5: Villain1 (18500 in chips)
+Seat 7: Villain2 (12000 in chips)
+ShortStack: posts the ante 250
+HeroName: posts the ante 250
+Villain1: posts the ante 250
+Villain2: posts the ante 250
+Villain1: posts small blind 1000
+Villain2: posts big blind 2000
+*** HOLE CARDS ***
+Dealt to HeroName [Ah Ks]
+ShortStack: raises 3150 to 5150 and is all-in
+HeroName: raises 26600 to 31750 and is all-in
+Villain1: folds
+Villain2: calls 9750 and is all-in
+*** FLOP *** [Td 8s 3c]
+*** TURN *** [Td 8s 3c] [Kh]
+*** RIVER *** [Td 8s 3c Kh] [5d]
+*** SHOW DOWN ***
+HeroName: shows [Ah Ks] (a pair of Kings)
+Villain2: shows [Jd Jc] (a pair of Jacks)
+ShortStack: shows [9s 9h] (a pair of Nines)
+HeroName collected 13200 from side pot
+HeroName collected 17200 from main pot
+*** SUMMARY ***
+Total pot 30400 | Rake 0
+Board [Td 8s 3c Kh 5d]
+Seat 1: ShortStack showed [9s 9h] and lost
+Seat 2: HeroName (button) showed [Ah Ks] and won (30400)
+Seat 5: Villain1 (small blind) folded before Flop
+Seat 7: Villain2 (big blind) showed [Jd Jc] and lost

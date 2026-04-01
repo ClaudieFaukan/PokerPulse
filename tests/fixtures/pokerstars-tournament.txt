@@ -1,0 +1,73 @@
+PokerStars Hand #234567890123: Tournament #3456789012, $10.00+$1.00 USD Hold'em No Limit - Level XII (150/300) - 2024/01/15 21:45:00 CET [2024/01/15 15:45:00 ET]
+Table '3456789012 42' 9-max Seat #6 is the button
+Seat 1: Player1 (8245 in chips)
+Seat 2: Player2 (12430 in chips)
+Seat 3: HeroName (9800 in chips)
+Seat 4: Player4 (5200 in chips)
+Seat 6: Player6 (15300 in chips)
+Seat 8: Player8 (7650 in chips)
+Player1: posts the ante 40
+Player2: posts the ante 40
+HeroName: posts the ante 40
+Player4: posts the ante 40
+Player6: posts the ante 40
+Player8: posts the ante 40
+Player8: posts small blind 150
+Player1: posts big blind 300
+*** HOLE CARDS ***
+Dealt to HeroName [Qs Qd]
+Player2: folds
+HeroName: raises 360 to 660
+Player4: folds
+Player6: calls 660
+Player8: folds
+Player1: folds
+*** FLOP *** [8h 5c 2s]
+HeroName: bets 825
+Player6: calls 825
+*** TURN *** [8h 5c 2s] [Kd]
+HeroName: checks
+Player6: bets 1800
+HeroName: calls 1800
+*** RIVER *** [8h 5c 2s Kd] [3h]
+HeroName: checks
+Player6: checks
+*** SHOW DOWN ***
+HeroName: shows [Qs Qd] (a pair of Queens)
+Player6: mucks hand
+HeroName collected 7010 from pot
+*** SUMMARY ***
+Total pot 7010 | Rake 0
+Board [8h 5c 2s Kd 3h]
+Seat 3: HeroName showed [Qs Qd] and won (7010)
+Seat 6: Player6 (button) mucked
+
+PokerStars Hand #234567890124: Tournament #3456789012, $10.00+$1.00 USD Hold'em No Limit - Level XII (150/300) - 2024/01/15 21:47:00 CET [2024/01/15 15:47:00 ET]
+Table '3456789012 42' 9-max Seat #8 is the button
+Seat 1: Player1 (7805 in chips)
+Seat 2: Player2 (12150 in chips)
+Seat 3: HeroName (15920 in chips)
+Seat 4: Player4 (4920 in chips)
+Seat 6: Player6 (7380 in chips)
+Seat 8: Player8 (7210 in chips)
+Player1: posts the ante 40
+Player2: posts the ante 40
+HeroName: posts the ante 40
+Player4: posts the ante 40
+Player6: posts the ante 40
+Player8: posts the ante 40
+Player1: posts small blind 150
+Player2: posts big blind 300
+*** HOLE CARDS ***
+Dealt to HeroName [7s 2d]
+HeroName: folds
+Player4: folds
+Player6: raises 360 to 660
+Player8: folds
+Player1: folds
+Player2: folds
+Uncalled bet (360) returned to Player6
+Player6 collected 990 from pot
+*** SUMMARY ***
+Total pot 990 | Rake 0
+Seat 6: Player6 won (990)

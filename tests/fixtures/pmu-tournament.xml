@@ -1,0 +1,81 @@
+<session sessioncode="12345">
+  <general>
+    <mode>real</mode>
+    <gametype>Tournament</gametype>
+    <tablename>TableName</tablename>
+    <duration>120</duration>
+    <gamecount>2</gamecount>
+    <startdate>2024-01-15 20:00:00</startdate>
+    <currency>EUR</currency>
+    <nickname>HeroName</nickname>
+    <bession>12345</bession>
+  </general>
+  <game gamecode="123456789">
+    <general>
+      <startdate>2024-01-15 20:01:23</startdate>
+      <players>
+        <player seat="1" name="Player1" chips="4500" dealer="0" win="0" bet="110"/>
+        <player seat="2" name="HeroName" chips="6200" dealer="0" win="1850" bet="660"/>
+        <player seat="3" name="Player3" chips="3800" dealer="0" win="0" bet="10"/>
+        <player seat="4" name="Player4" chips="5100" dealer="0" win="0" bet="10"/>
+        <player seat="5" name="Player5" chips="7200" dealer="1" win="0" bet="10"/>
+        <player seat="6" name="Player6" chips="4000" dealer="0" win="0" bet="60"/>
+      </players>
+    </general>
+    <round no="0" community="">
+      <action no="1" player="Player1" type="15" sum="10"/>
+      <action no="2" player="HeroName" type="15" sum="10"/>
+      <action no="3" player="Player3" type="15" sum="10"/>
+      <action no="4" player="Player4" type="15" sum="10"/>
+      <action no="5" player="Player5" type="15" sum="10"/>
+      <action no="6" player="Player6" type="15" sum="10"/>
+      <action no="7" player="Player6" type="1" sum="50"/>
+      <action no="8" player="Player1" type="2" sum="100"/>
+    </round>
+    <round no="1" community="">
+      <cards type="Pocket" player="HeroName">Jh Ts</cards>
+      <action no="9" player="Player3" type="0" sum="0"/>
+      <action no="10" player="Player4" type="0" sum="0"/>
+      <action no="11" player="Player5" type="0" sum="0"/>
+      <action no="12" player="HeroName" type="23" sum="250"/>
+      <action no="13" player="Player6" type="0" sum="0"/>
+      <action no="14" player="Player1" type="3" sum="150"/>
+    </round>
+    <round no="2" community="Qh 9c 8d">
+      <action no="15" player="Player1" type="5" sum="0"/>
+      <action no="16" player="HeroName" type="4" sum="400"/>
+      <action no="17" player="Player1" type="3" sum="400"/>
+    </round>
+    <round no="3" community="Qh 9c 8d Kc">
+      <action no="18" player="Player1" type="5" sum="0"/>
+      <action no="19" player="HeroName" type="4" sum="800"/>
+      <action no="20" player="Player1" type="0" sum="0"/>
+    </round>
+  </game>
+  <game gamecode="123456790">
+    <general>
+      <startdate>2024-01-15 20:05:00</startdate>
+      <players>
+        <player seat="1" name="Player1" chips="3940" dealer="0" win="0" bet="60"/>
+        <player seat="2" name="HeroName" chips="7780" dealer="0" win="2100" bet="1100"/>
+        <player seat="3" name="Player3" chips="3790" dealer="0" win="0" bet="10"/>
+        <player seat="6" name="Player6" chips="3940" dealer="1" win="0" bet="10"/>
+      </players>
+    </general>
+    <round no="0" community="">
+      <action no="1" player="Player1" type="15" sum="10"/>
+      <action no="2" player="HeroName" type="15" sum="10"/>
+      <action no="3" player="Player3" type="15" sum="10"/>
+      <action no="4" player="Player6" type="15" sum="10"/>
+      <action no="5" player="Player1" type="1" sum="50"/>
+      <action no="6" player="HeroName" type="2" sum="100"/>
+    </round>
+    <round no="1" community="">
+      <cards type="Pocket" player="HeroName">Ac Kh</cards>
+      <action no="7" player="Player3" type="0" sum="0"/>
+      <action no="8" player="Player6" type="0" sum="0"/>
+      <action no="9" player="Player1" type="0" sum="0"/>
+      <action no="10" player="HeroName" type="23" sum="500"/>
+    </round>
+  </game>
+</session>

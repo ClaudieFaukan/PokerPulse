@@ -1,0 +1,111 @@
+Winamax Poker - Tournament "Freeroll 500€" buyIn: 5€ + 0.50€ level: 4 - HandId: #123456-89-1234567890 - Holdem no limit (5/25/50) - 2024/01/15 20:30:00 UTC
+Table: 'Freeroll 500€(123456789)#005' 9-max (real money) Seat #3 is the button
+Seat 1: Player1 (3500)
+Seat 2: Player2 (2800)
+Seat 3: HeroName (4200)
+Seat 4: Player4 (1500)
+Seat 5: Player5 (5000)
+Seat 6: Player6 (3100)
+Seat 7: Player7 (2200)
+Seat 8: Player8 (4800)
+Seat 9: Player9 (3000)
+*** ANTE/BLINDS ***
+Player1 posts ante 5
+Player2 posts ante 5
+HeroName posts ante 5
+Player4 posts ante 5
+Player5 posts ante 5
+Player6 posts ante 5
+Player7 posts ante 5
+Player8 posts ante 5
+Player9 posts ante 5
+Player4 posts small blind 25
+Player5 posts big blind 50
+Dealt to HeroName [Ah Kd]
+*** PRE-FLOP ***
+Player6 folds
+Player7 raises 100 to 100
+Player8 folds
+Player9 folds
+Player1 folds
+Player2 folds
+HeroName raises 300 to 300
+Player4 folds
+Player5 folds
+Player7 calls 200
+*** FLOP *** [Ks 7h 2d]
+Player7 checks
+HeroName bets 250
+Player7 calls 250
+*** TURN *** [Ks 7h 2d][Jc]
+Player7 checks
+HeroName bets 600
+Player7 folds
+*** SHOW DOWN ***
+HeroName collected 1320 from pot
+*** SUMMARY ***
+Total pot 1320 | No Rake
+Board: [Ks 7h 2d Jc]
+Seat 1: Player1 folded on the pre-flop
+Seat 2: Player2 folded on the pre-flop
+Seat 3: HeroName (button) won 1320
+Seat 4: Player4 (small blind) folded on the pre-flop
+Seat 5: Player5 (big blind) folded on the pre-flop
+Seat 6: Player6 folded on the pre-flop
+Seat 7: Player7 folded on the turn
+Seat 8: Player8 folded on the pre-flop
+Seat 9: Player9 folded on the pre-flop
+
+Winamax Poker - Tournament "Freeroll 500€" buyIn: 5€ + 0.50€ level: 5 - HandId: #123456-90-1234567891 - Holdem no limit (10/50/100) - 2024/01/15 20:35:00 UTC
+Table: 'Freeroll 500€(123456789)#005' 9-max (real money) Seat #4 is the button
+Seat 1: Player1 (3450)
+Seat 2: Player2 (2750)
+Seat 3: HeroName (5070)
+Seat 4: Player4 (1420)
+Seat 5: Player5 (4900)
+Seat 6: Player6 (3050)
+Seat 7: Player7 (1700)
+Seat 8: Player8 (4750)
+Seat 9: Player9 (2950)
+*** ANTE/BLINDS ***
+Player1 posts ante 10
+Player2 posts ante 10
+HeroName posts ante 10
+Player4 posts ante 10
+Player5 posts ante 10
+Player6 posts ante 10
+Player7 posts ante 10
+Player8 posts ante 10
+Player9 posts ante 10
+Player5 posts small blind 50
+Player6 posts big blind 100
+Dealt to HeroName [Qs Qd]
+*** PRE-FLOP ***
+Player7 folds
+Player8 folds
+Player9 folds
+Player1 folds
+Player2 folds
+HeroName raises 250 to 250
+Player4 folds
+Player5 folds
+Player6 calls 150
+*** FLOP *** [8h 5c 2s]
+Player6 checks
+HeroName bets 300
+Player6 calls 300
+*** TURN *** [8h 5c 2s][Kd]
+Player6 checks
+HeroName checks
+*** RIVER *** [8h 5c 2s Kd][3h]
+Player6 bets 500
+HeroName calls 500
+*** SHOW DOWN ***
+Player6 shows [Ac Kh]
+HeroName shows [Qs Qd]
+Player6 collected 2290 from pot
+*** SUMMARY ***
+Total pot 2290 | No Rake
+Board: [8h 5c 2s Kd 3h]
+Seat 3: HeroName showed [Qs Qd] and lost
+Seat 6: Player6 (big blind) showed [Ac Kh] and won 2290

@@ -1,0 +1,14 @@
+Winamax Poker - Tournament summary : Freeroll 500€(123456789)
+Player : HeroName
+Buy-In : 5€ + 0.50€
+Registered players : 500
+Mode : tt
+Type : normal
+Speed : normal
+Flight ID : 0
+Levels : Levels : [100-200:25:1800:holdem-no-limit]
+Prizepool : 2500€
+Tournament started 2026/01/15 20:00:00 UTC
+You played 5h 30min 00s
+You finished in 23rd place
+You won 15.50€

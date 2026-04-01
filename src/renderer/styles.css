@@ -1,0 +1,40 @@
+@import "tailwindcss";
+
+@theme {
+  --color-poker-green: #2d6a4f;
+  --color-poker-dark: #1a1a2e;
+  --color-poker-darker: #16162a;
+  --color-poker-card: #232342;
+  --color-poker-border: #2a2a4a;
+  --color-poker-red: #e63946;
+  --color-poker-blue: #4a90d9;
+  --color-poker-gold: #f4a261;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  overflow: hidden;
+}
+
+/* Monospace for amounts */
+.font-mono {
+  font-family: 'JetBrains Mono', 'Fira Code', 'SF Mono', monospace;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-poker-darker);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-poker-border);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #3a3a5a;
+}

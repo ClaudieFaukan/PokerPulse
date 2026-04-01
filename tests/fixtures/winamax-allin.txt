@@ -1,0 +1,41 @@
+Winamax Poker - Tournament "Sunday Special" buyIn: 20€ + 2€ level: 10 - HandId: #999888-50-5555555555 - Holdem no limit (50/200/400) - 2024/02/10 21:15:00 UTC
+Table: 'Sunday Special(999888777)#012' 9-max (real money) Seat #7 is the button
+Seat 1: AllinPlayer1 (4500)
+Seat 3: HeroName (8200)
+Seat 5: AllinPlayer2 (3800)
+Seat 7: BigStack (15000)
+Seat 9: ShortStack (1200)
+*** ANTE/BLINDS ***
+AllinPlayer1 posts ante 50
+HeroName posts ante 50
+AllinPlayer2 posts ante 50
+BigStack posts ante 50
+ShortStack posts ante 50
+ShortStack posts small blind 200
+AllinPlayer1 posts big blind 400
+Dealt to HeroName [As Ac]
+*** PRE-FLOP ***
+HeroName raises 900 to 900
+AllinPlayer2 raises 3750 to 3750 and is all-in
+BigStack folds
+ShortStack calls 950 and is all-in
+AllinPlayer1 calls 3350 and is all-in
+HeroName calls 2850
+*** FLOP *** [Th 7c 2d]
+*** TURN *** [Th 7c 2d][5s]
+*** RIVER *** [Th 7c 2d 5s][Qh]
+*** SHOW DOWN ***
+AllinPlayer1 shows [Kh Kd]
+HeroName shows [As Ac]
+AllinPlayer2 shows [Jh Jd]
+ShortStack shows [9s 9c]
+HeroName collected 3600 from side pot 2
+HeroName collected 1400 from side pot 1
+HeroName collected 5050 from main pot
+*** SUMMARY ***
+Total pot 10050 | No Rake
+Board: [Th 7c 2d 5s Qh]
+Seat 1: AllinPlayer1 (big blind) showed [Kh Kd] and lost
+Seat 3: HeroName showed [As Ac] and won 10050
+Seat 5: AllinPlayer2 showed [Jh Jd] and lost
+Seat 9: ShortStack (small blind) showed [9s 9c] and lost

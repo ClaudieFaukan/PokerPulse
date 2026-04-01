@@ -1,0 +1,28 @@
+appId: com.pokerpulse.app
+productName: PokerPulse
+directories:
+  buildResources: assets
+  output: release
+files:
+  - dist/**/*
+  - node_modules/**/*
+  - package.json
+asarUnpack:
+  - "node_modules/better-sqlite3/**"
+mac:
+  category: public.app-category.games
+  target:
+    - dmg
+    - dir
+  icon: assets/icon.icns
+dmg:
+  contents:
+    - x: 130
+      y: 220
+    - x: 410
+      y: 220
+      type: link
+      path: /Applications
+extraMetadata:
+  main: dist/main/main.js
+afterSign: null

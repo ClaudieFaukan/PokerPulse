@@ -1,0 +1,89 @@
+Winamax Poker - Tournament "Edge Case MTT" buyIn: 10€ + 1€ level: 8 - HandId: #777777-01-1111111111 - Holdem no limit (25/100/200) - 2024/03/01 19:00:00 UTC
+Table: 'Edge Case MTT(777777)#001' 6-max (real money) Seat #2 is the button
+Seat 1: HeroName (3000)
+Seat 2: Villain1 (5000)
+Seat 4: Villain2 (5000)
+Seat 6: Villain3 (5000)
+*** ANTE/BLINDS ***
+HeroName posts ante 25
+Villain1 posts ante 25
+Villain2 posts ante 25
+Villain3 posts ante 25
+Villain2 posts small blind 100
+Villain3 posts big blind 200
+Dealt to HeroName [Ac Ad]
+*** PRE-FLOP ***
+HeroName raises 500 to 500
+Villain1 raises 1500 to 1500
+Villain2 folds
+Villain3 folds
+HeroName raises 2475 to 2975 and is all-in
+Villain1 calls 1475
+*** FLOP *** [Ks 7h 2d]
+*** TURN *** [Ks 7h 2d][Td]
+*** RIVER *** [Ks 7h 2d Td][Jc]
+*** SHOW DOWN ***
+HeroName shows [Ac Ad]
+Villain1 shows [Kh Kd]
+Villain1 collected 6350 from pot
+*** SUMMARY ***
+Total pot 6350 | No Rake
+Board: [Ks 7h 2d Td Jc]
+Seat 1: HeroName showed [Ac Ad] and lost
+Seat 2: Villain1 (button) showed [Kh Kd] and won 6350
+
+Winamax Poker - Tournament "Edge Case MTT" buyIn: 10€ + 1€ level: 1 - HandId: #777777-02-2222222222 - Holdem no limit (10/20) - 2024/03/01 19:05:00 UTC
+Table: 'Edge Case MTT(777777)#001' 6-max (real money) Seat #3 is the button
+Seat 1: Player1 (5000)
+Seat 2: Player2 (5000)
+Seat 3: HeroName (5000)
+Seat 4: Player4 (5000)
+Seat 5: Player5 (5000)
+Seat 6: Player6 (5000)
+*** ANTE/BLINDS ***
+Player4 posts small blind 10
+Player5 posts big blind 20
+Dealt to HeroName [7s 2d]
+*** PRE-FLOP ***
+Player6 folds
+Player1 folds
+Player2 folds
+HeroName folds
+Player4 folds
+*** SHOW DOWN ***
+Player5 collected 20 from pot
+*** SUMMARY ***
+Total pot 20 | No Rake
+Seat 5: Player5 (big blind) won 20
+
+Winamax Poker - Tournament "Split Pot" buyIn: 5€ + 0.50€ level: 3 - HandId: #888888-01-3333333333 - Holdem no limit (25/50) - 2024/03/01 20:00:00 UTC
+Table: 'Split Pot(888888)#001' 9-max (real money) Seat #1 is the button
+Seat 1: HeroName (3000)
+Seat 2: Villain1 (3000)
+Seat 3: Villain2 (3000)
+*** ANTE/BLINDS ***
+Villain1 posts small blind 25
+Villain2 posts big blind 50
+Dealt to HeroName [Ah Ks]
+*** PRE-FLOP ***
+HeroName raises 150 to 150
+Villain1 calls 125
+Villain2 folds
+*** FLOP *** [Qd Jd Td]
+Villain1 checks
+HeroName bets 200
+Villain1 raises 600 to 600
+HeroName raises 2850 to 2850 and is all-in
+Villain1 calls 2250 and is all-in
+*** TURN *** [Qd Jd Td][2c]
+*** RIVER *** [Qd Jd Td 2c][3h]
+*** SHOW DOWN ***
+HeroName shows [Ah Ks]
+Villain1 shows [As Kc]
+HeroName collected 3050 from pot
+Villain1 collected 3050 from pot
+*** SUMMARY ***
+Total pot 6100 | No Rake
+Board: [Qd Jd Td 2c 3h]
+Seat 1: HeroName (button) showed [Ah Ks] and won 3050
+Seat 2: Villain1 (small blind) showed [As Kc] and won 3050

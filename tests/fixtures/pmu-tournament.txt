@@ -1,0 +1,68 @@
+***** History for hand #12345678-12 *****
+Start hand: Mon Jan 15 20:00:00 CET 2024
+Table: TableName [12345678] (NO_LIMIT TEXAS_HOLDEM 50/100/10, Tournament)
+Seat 1: Player1 (4500)
+Seat 2: HeroName (6200)
+Seat 3: Player3 (3800)
+Seat 4: Player4 (5100)
+Seat 5: Player5 (7200)
+Seat 6: Player6 (4000)
+Button: Seat 5
+Small Blind [Seat 6]: Player6 (50)
+Big Blind [Seat 1]: Player1 (100)
+Ante [Seat 1]: Player1 (10)
+Ante [Seat 2]: HeroName (10)
+Ante [Seat 3]: Player3 (10)
+Ante [Seat 4]: Player4 (10)
+Ante [Seat 5]: Player5 (10)
+Ante [Seat 6]: Player6 (10)
+Dealt to HeroName [Jh Ts]
+Player3 folds
+Player4 folds
+Player5 folds
+HeroName raises 250
+Player6 folds
+Player1 calls 150
+---FLOP--- [Qh 9c 8d]
+Player1 checks
+HeroName bets 400
+Player1 calls 400
+---TURN--- [Qh 9c 8d] [Kc]
+Player1 checks
+HeroName bets 800
+Player1 folds
+HeroName wins 1580
+
+***** History for hand #12345678-13 *****
+Start hand: Mon Jan 15 20:05:00 CET 2024
+Table: TableName [12345678] (NO_LIMIT TEXAS_HOLDEM 50/100/10, Tournament)
+Seat 1: Player1 (3940)
+Seat 2: HeroName (7780)
+Seat 3: Player3 (3790)
+Seat 4: Player4 (5090)
+Seat 5: Player5 (7190)
+Seat 6: Player6 (3940)
+Button: Seat 6
+Small Blind [Seat 1]: Player1 (50)
+Big Blind [Seat 2]: HeroName (100)
+Ante [Seat 1]: Player1 (10)
+Ante [Seat 2]: HeroName (10)
+Ante [Seat 3]: Player3 (10)
+Ante [Seat 4]: Player4 (10)
+Ante [Seat 5]: Player5 (10)
+Ante [Seat 6]: Player6 (10)
+Dealt to HeroName [Ac Kh]
+Player3 folds
+Player4 raises 250
+Player5 folds
+Player6 folds
+Player1 folds
+HeroName raises 600
+Player4 is all-in 4830
+HeroName calls 4230
+---FLOP--- [Ah 7c 2d]
+---TURN--- [Ah 7c 2d] [5s]
+---RIVER--- [Ah 7c 2d 5s] [Td]
+Player4 shows [Qd Qs]
+HeroName shows [Ac Kh]
+HeroName wins 10290

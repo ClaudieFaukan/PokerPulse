@@ -1,3 +1,4 @@
+import { ReactNode } from 'react';
 import { useAppStore } from '../../store/appStore';
 
 const PERIODS = [
@@ -23,7 +24,7 @@ const BUYIN_RANGES = [
   { label: '50€+', min: 50, max: undefined },
 ];
 
-export default function FilterBar() {
+export default function FilterBar({ searchSlot }: { searchSlot?: ReactNode } = {}) {
   const { filters, setFilters, resetFilters } = useAppStore();
 
   const activePeriod = filters.activePeriod ?? 0;
@@ -51,6 +52,12 @@ export default function FilterBar() {
 
   return (
     <div className="flex flex-wrap items-center gap-3 p-3 bg-poker-card rounded-lg border border-poker-border">
+      {searchSlot && (
+        <>
+          {searchSlot}
+          <div className="w-px h-5 bg-poker-border" />
+        </>
+      )}
       {/* Period */}
       <div className="flex items-center gap-1">
         <span className="text-xs text-gray-500 mr-1">Période</span>

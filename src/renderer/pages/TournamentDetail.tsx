@@ -224,84 +224,111 @@ export default function TournamentDetail() {
 
       {/* Review stats */}
       {data.hands.length > 0 && (() => {
-        // All-in stats
-        const allinHands = data.hands.filter((h) => h.is_hero_allin);
+        const hands = data.hands;
+        const handCount = hands.length;
+
+        // bb/100: net chips won converted to BB per 100 hands
+        const handsWithBB = hands.filter((h) => h.big_blind > 0);
+        const totalBBWon = handsWithBB.reduce((s, h) => s + (h.hero_won || 0) / h.big_blind, 0);
+        const bb100 = handsWithBB.length > 0 ? (totalBBWon / handsWithBB.length) * 100 : 0;
+
+        // All-in EV
+        const allinHands = hands.filter((h) => h.is_hero_allin);
         const allinWithEV = allinHands.filter((h) => h.hero_ev_diff != null);
         const totalEvDiff = allinWithEV.reduce((s, h) => s + (h.hero_ev_diff || 0), 0);
         const allinWon = allinHands.filter((h) => h.hero_won > 0).length;
 
-        // Stack in BB over time — zone distribution
-        const bbStacks = data.hands
+        // Showdown stats
+        const showdownHands = hands.filter((h) => h.went_to_showdown);
+        const showdownWon = showdownHands.filter((h) => h.hero_won > 0).length;
+        const showdownPct = handCount > 0 ? (showdownHands.length / handCount) * 100 : 0;
+        const showdownWinRate = showdownHands.length > 0 ? (showdownWon / showdownHands.length) * 100 : 0;
+
+        // Average pot size in BB
+        const avgPotBB = handsWithBB.length > 0
+          ? handsWithBB.reduce((s, h) => s + (h.total_pot || 0) / h.big_blind, 0) / handsWithBB.length
+          : 0;
+
+        // Stack in BB over time
+        const bbStacks = hands
           .filter((h) => h.big_blind > 0 && h.hero_stack_before > 0)
           .map((h) => h.hero_stack_before / h.big_blind);
-        const dangerZone = bbStacks.filter((bb) => bb < 10).length;
-        const shortZone = bbStacks.filter((bb) => bb >= 10 && bb < 20).length;
-        const mediumZone = bbStacks.filter((bb) => bb >= 20 && bb < 40).length;
-        const deepZone = bbStacks.filter((bb) => bb >= 40).length;
-        const total = bbStacks.length || 1;
-
-        // Average M-ratio
-        const mRatios = data.hands
-          .filter((h) => h.big_blind > 0 && h.hero_stack_before > 0)
-          .map((h) => {
-            const orbit = h.small_blind + h.big_blind + (h.num_players || 6) * 0; // ante not in hand data, approximate
-            return h.hero_stack_before / (h.small_blind + h.big_blind);
-          });
-        const avgM = mRatios.length > 0 ? mRatios.reduce((a, b) => a + b, 0) / mRatios.length : 0;
+        const avgStackBB = bbStacks.length > 0 ? bbStacks.reduce((a, b) => a + b, 0) / bbStacks.length : 0;
 
         return (
           <div className="grid grid-cols-3 gap-3">
-            {/* EV Summary */}
+            {/* Performance */}
+            <div className="bg-poker-card rounded-lg border border-poker-border p-3">
+              <h4 className="text-[10px] uppercase tracking-wider text-gray-500 mb-2">Performance</h4>
+              <div className="space-y-1.5">
+                <div className="flex justify-between text-xs">
+                  <span className="text-gray-400">bb/100</span>
+                  <span className={`font-mono font-bold ${bb100 > 0 ? 'text-emerald-400' : bb100 < 0 ? 'text-red-400' : 'text-gray-400'}`}>
+                    {bb100 > 0 ? '+' : ''}{bb100.toFixed(1)}
+                  </span>
+                </div>
+                <div className="flex justify-between text-xs">
+                  <span className="text-gray-400">Stack moyen</span>
+                  <span className="font-mono text-gray-300">{Math.round(avgStackBB)}bb</span>
+                </div>
+                <div className="flex justify-between text-xs">
+                  <span className="text-gray-400">Pot moyen</span>
+                  <span className="font-mono text-gray-300">{avgPotBB.toFixed(1)}bb</span>
+                </div>
+                <div className="flex justify-between text-xs">
+                  <span className="text-gray-400">Mains jouées</span>
+                  <span className="font-mono text-gray-300">{handCount}</span>
+                </div>
+              </div>
+            </div>
+
+            {/* All-in EV */}
             <div className="bg-poker-card rounded-lg border border-poker-border p-3">
               <h4 className="text-[10px] uppercase tracking-wider text-gray-500 mb-2">All-in EV</h4>
               <div className="space-y-1.5">
                 <div className="flex justify-between text-xs">
-                  <span className="text-gray-400">Mains all-in</span>
-                  <span className="font-mono text-gray-300">{allinHands.length}</span>
-                </div>
-                <div className="flex justify-between text-xs">
-                  <span className="text-gray-400">Gagnées</span>
-                  <span className="font-mono text-gray-300">{allinWon}/{allinHands.length}</span>
+                  <span className="text-gray-400">All-in</span>
+                  <span className="font-mono text-gray-300">{allinHands.length} ({allinWon}W / {allinHands.length - allinWon}L)</span>
                 </div>
                 {allinWithEV.length > 0 && (
-                  <div className="flex justify-between text-xs pt-1 border-t border-poker-border/50">
-                    <span className="text-gray-400">Run</span>
-                    <span className={`font-mono font-bold ${totalEvDiff > 0 ? 'text-emerald-400' : totalEvDiff < 0 ? 'text-red-400' : 'text-gray-400'}`}>
-                      {totalEvDiff > 0 ? '+' : ''}{Math.round(totalEvDiff).toLocaleString()} chips
-                    </span>
-                  </div>
+                  <>
+                    <div className="flex justify-between text-xs">
+                      <span className="text-gray-400">Run (chips)</span>
+                      <span className={`font-mono font-bold ${totalEvDiff > 0 ? 'text-emerald-400' : totalEvDiff < 0 ? 'text-red-400' : 'text-gray-400'}`}>
+                        {totalEvDiff > 0 ? '+' : ''}{Math.round(totalEvDiff).toLocaleString()}
+                      </span>
+                    </div>
+                    <div className="flex justify-between text-xs">
+                      <span className="text-gray-400">Run (bb)</span>
+                      <span className={`font-mono font-bold ${totalEvDiff > 0 ? 'text-emerald-400' : totalEvDiff < 0 ? 'text-red-400' : 'text-gray-400'}`}>
+                        {totalEvDiff > 0 ? '+' : ''}{(totalEvDiff / (hands[hands.length - 1]?.big_blind || 1)).toFixed(1)}bb
+                      </span>
+                    </div>
+                  </>
+                )}
+                {allinWithEV.length === 0 && (
+                  <div className="text-xs text-gray-600 italic">Pas de données EV</div>
                 )}
               </div>
             </div>
 
-            {/* BB Stack Distribution */}
+            {/* Showdown */}
             <div className="bg-poker-card rounded-lg border border-poker-border p-3">
-              <h4 className="text-[10px] uppercase tracking-wider text-gray-500 mb-2">Distribution stack (BB)</h4>
-              <div className="space-y-1">
-                <StackZoneBar label="< 10bb" pct={dangerZone / total * 100} color="bg-red-500" />
-                <StackZoneBar label="10-20bb" pct={shortZone / total * 100} color="bg-yellow-500" />
-                <StackZoneBar label="20-40bb" pct={mediumZone / total * 100} color="bg-blue-500" />
-                <StackZoneBar label="40bb+" pct={deepZone / total * 100} color="bg-emerald-500" />
-              </div>
-            </div>
-
-            {/* M-ratio / general */}
-            <div className="bg-poker-card rounded-lg border border-poker-border p-3">
-              <h4 className="text-[10px] uppercase tracking-wider text-gray-500 mb-2">Profondeur</h4>
+              <h4 className="text-[10px] uppercase tracking-wider text-gray-500 mb-2">Showdown</h4>
               <div className="space-y-1.5">
                 <div className="flex justify-between text-xs">
-                  <span className="text-gray-400">M-ratio moyen</span>
-                  <span className={`font-mono font-bold ${avgM < 10 ? 'text-red-400' : avgM < 20 ? 'text-yellow-400' : 'text-emerald-400'}`}>
-                    {avgM.toFixed(1)}
+                  <span className="text-gray-400">WTSD%</span>
+                  <span className="font-mono text-gray-300">{showdownPct.toFixed(1)}%</span>
+                </div>
+                <div className="flex justify-between text-xs">
+                  <span className="text-gray-400">W$SD%</span>
+                  <span className={`font-mono font-bold ${showdownWinRate >= 50 ? 'text-emerald-400' : 'text-red-400'}`}>
+                    {showdownWinRate.toFixed(1)}%
                   </span>
                 </div>
                 <div className="flex justify-between text-xs">
-                  <span className="text-gray-400">Stack BB min</span>
-                  <span className="font-mono text-gray-300">{bbStacks.length > 0 ? Math.round(Math.min(...bbStacks)) : '—'}bb</span>
-                </div>
-                <div className="flex justify-between text-xs">
-                  <span className="text-gray-400">Stack BB max</span>
-                  <span className="font-mono text-gray-300">{bbStacks.length > 0 ? Math.round(Math.max(...bbStacks)) : '—'}bb</span>
+                  <span className="text-gray-400">Showdowns</span>
+                  <span className="font-mono text-gray-300">{showdownWon}W / {showdownHands.length - showdownWon}L</span>
                 </div>
               </div>
             </div>
@@ -408,7 +435,7 @@ export default function TournamentDetail() {
                   (h.hero_won || 0) > 0 ? 'text-emerald-400' :
                   (h.hero_won || 0) < 0 ? 'text-red-400' : 'text-gray-500'
                 }`}>
-                  {h.hero_won > 0 ? '+' : ''}{h.hero_won?.toLocaleString() || '0'}
+                  {(h.hero_won || 0) > 0 ? '+' : ''}{h.hero_won != null ? h.hero_won.toLocaleString() : '0'}
                 </td>
                 <td className="px-3 py-2 text-center">
                   {h.is_hero_allin && <span className="text-[10px] bg-red-500/20 text-red-400 px-1 rounded">AI</span>}
@@ -428,18 +455,6 @@ function InfoCard({ label, value, color = 'text-gray-200' }: { label: string; va
     <div className="bg-poker-dark rounded-lg border border-poker-border p-3">
       <p className="text-[10px] uppercase tracking-wider text-gray-500 mb-0.5">{label}</p>
       <p className={`text-lg font-bold font-mono ${color}`}>{value}</p>
-    </div>
-  );
-}
-
-function StackZoneBar({ label, pct, color }: { label: string; pct: number; color: string }) {
-  return (
-    <div className="flex items-center gap-2 text-[10px]">
-      <span className="w-12 text-gray-400 text-right">{label}</span>
-      <div className="flex-1 h-3 bg-poker-dark rounded-full overflow-hidden">
-        <div className={`h-full ${color} rounded-full transition-all`} style={{ width: `${Math.max(pct, 1)}%` }} />
-      </div>
-      <span className="w-8 text-gray-500 font-mono">{Math.round(pct)}%</span>
     </div>
   );
 }

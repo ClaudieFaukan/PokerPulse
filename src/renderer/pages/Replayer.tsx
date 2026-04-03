@@ -112,7 +112,7 @@ export default function Replayer() {
   }, [id]);
 
   const {
-    tableState, actionIndex, totalActions, stepIndex, totalSteps, isPlaying, speed,
+    tableState, currentEquities, streetEquities, actionIndex, totalActions, stepIndex, totalSteps, isPlaying, speed,
     setSpeed, togglePlay, next, prev, goToStart, goToEnd, goTo,
   } = useReplayerState(hand, tournamentCtx?.bountyChipRatio);
 
@@ -334,6 +334,7 @@ export default function Replayer() {
               currentBB={hand.big_blind}
               showBB={showBB}
               playerStats={playerStats}
+              equities={currentEquities}
               onPlayerClick={(name) => {
                 // Find player ID for modal
                 window.api.searchPlayers(name).then((results: any[]) => {
@@ -344,7 +345,7 @@ export default function Replayer() {
             />
           </div>
         </div>
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2 min-h-0">
           <ActionLog
             actions={hand.actions}
             currentIndex={actionIndex}
@@ -354,6 +355,59 @@ export default function Replayer() {
             showBB={showBB}
             currentBB={hand.big_blind}
           />
+
+          {/* Equity evolution panel */}
+          {streetEquities.length > 0 && (
+            <div className="bg-poker-card rounded-lg border border-poker-border p-3 shrink-0">
+              <h4 className="text-[10px] uppercase tracking-wider text-gray-500 mb-2">Evolution Equity</h4>
+              <div className="space-y-1">
+                {/* Player legend */}
+                <div className="flex flex-wrap gap-2 mb-1.5">
+                  {streetEquities[0].players.map((p) => {
+                    const isHero = hand.players.find((hp) => hp.isHero)?.name === p.name;
+                    return (
+                      <span key={p.name} className={`text-[9px] font-medium ${isHero ? 'text-poker-green' : 'text-gray-400'}`}>
+                        {p.name}
+                      </span>
+                    );
+                  })}
+                </div>
+                {/* Street rows */}
+                <table className="w-full text-[10px]">
+                  <thead>
+                    <tr className="text-gray-600">
+                      <th className="text-left font-normal w-14">Street</th>
+                      {streetEquities[0].players.map((p) => (
+                        <th key={p.name} className="text-right font-normal">{p.name.slice(0, 8)}</th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {streetEquities.map((se) => {
+                      const isCurrentStreet = (
+                        (se.street === 'Preflop' && tableState.board.length === 0) ||
+                        (se.street === 'Flop' && tableState.board.length === 3) ||
+                        (se.street === 'Turn' && tableState.board.length === 4) ||
+                        (se.street === 'River' && tableState.board.length === 5)
+                      );
+                      return (
+                        <tr key={se.street} className={isCurrentStreet ? 'bg-white/5' : ''}>
+                          <td className="text-gray-500 py-0.5">{se.street}</td>
+                          {se.players.map((p) => (
+                            <td key={p.name} className={`text-right font-mono py-0.5 ${
+                              p.equity >= 0.5 ? 'text-emerald-400' : p.equity >= 0.3 ? 'text-yellow-400' : 'text-red-400'
+                            } ${isCurrentStreet ? 'font-bold' : ''}`}>
+                              {(p.equity * 100).toFixed(1)}%
+                            </td>
+                          ))}
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          )}
         </div>
       </div>
 

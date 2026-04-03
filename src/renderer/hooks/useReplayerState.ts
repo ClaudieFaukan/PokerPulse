@@ -57,6 +57,16 @@ export interface HeroDecision {
   heroCoversBettor: boolean; // true if hero can eliminate the bettor
 }
 
+export interface PlayerEquity {
+  name: string;
+  equity: number; // 0-1
+}
+
+export interface StreetEquity {
+  street: string;
+  players: PlayerEquity[];
+}
+
 export interface TableState {
   players: PlayerState[];
   pot: number;
@@ -211,8 +221,97 @@ export function useReplayerState(hand: ReplayerHand | null, bountyChipRatio?: nu
 
   const tableState = buildTableState(hand, actionIndex, boardReveals, bountyChipRatio);
 
+  // Compute equity for all streets asynchronously to avoid blocking the UI
+  const [allInEquityData, setAllInEquityData] = useState<Record<number, StreetEquity> | null>(null);
+
+  useEffect(() => {
+    if (!hand || !hand.showdownCards || !(hand.showdownCards instanceof Map)) {
+      setAllInEquityData(null);
+      return;
+    }
+
+    // Only compute equity when hero went all-in (not folded)
+    const heroAllin = hand.actions.some((a) => a.is_hero && a.action_type === 'allin');
+    const heroFolded = hand.actions.some((a) => a.is_hero && a.action_type === 'fold');
+    if (!heroAllin || heroFolded) {
+      setAllInEquityData(null);
+      return;
+    }
+
+    const playerHands: { name: string; cards: [string, string] }[] = [];
+    const heroPlayer = hand.players.find((p) => p.isHero);
+    if (heroPlayer && hand.hero_card1 && hand.hero_card2) {
+      playerHands.push({ name: heroPlayer.name, cards: [hand.hero_card1, hand.hero_card2] });
+    }
+    for (const [name, cards] of hand.showdownCards) {
+      if (!playerHands.some((p) => p.name === name)) {
+        playerHands.push({ name, cards });
+      }
+    }
+    if (playerHands.length < 2) {
+      setAllInEquityData(null);
+      return;
+    }
+
+    let cancelled = false;
+
+    // Dynamic import to avoid breaking module loading
+    import('../../engine/ev-calculator').then(({ calculateEquity }) => {
+      if (cancelled) return;
+
+      const hands = playerHands.map((p) => p.cards);
+      const streetMap: Record<number, StreetEquity> = {};
+
+      // Flop/turn/river are fast (max 990 combos)
+      if (hand.flop_card1 && hand.flop_card2 && hand.flop_card3) {
+        const board = [hand.flop_card1, hand.flop_card2, hand.flop_card3];
+        const eq = calculateEquity(hands, board);
+        streetMap[3] = { street: 'Flop', players: playerHands.map((p, i) => ({ name: p.name, equity: eq[i] })) };
+      }
+      if (hand.turn_card && hand.flop_card1) {
+        const board = [hand.flop_card1, hand.flop_card2!, hand.flop_card3!, hand.turn_card];
+        const eq = calculateEquity(hands, board);
+        streetMap[4] = { street: 'Turn', players: playerHands.map((p, i) => ({ name: p.name, equity: eq[i] })) };
+      }
+      if (hand.river_card && hand.flop_card1) {
+        const board = [hand.flop_card1, hand.flop_card2!, hand.flop_card3!, hand.turn_card!, hand.river_card];
+        const eq = calculateEquity(hands, board);
+        streetMap[5] = { street: 'River', players: playerHands.map((p, i) => ({ name: p.name, equity: eq[i] })) };
+      }
+
+      // Preflop: only for 2 players heads-up (C(48,5) = 1.7M combos)
+      if (playerHands.length === 2) {
+        try {
+          const eq = calculateEquity(hands, []);
+          streetMap[0] = { street: 'Preflop', players: playerHands.map((p, i) => ({ name: p.name, equity: eq[i] })) };
+        } catch { /* skip if too slow */ }
+      }
+
+      if (!cancelled) setAllInEquityData(streetMap);
+    }).catch(() => { /* module not available, skip equity */ });
+
+    return () => { cancelled = true; };
+  }, [hand]);
+
+  // Current equity based on visible board cards + at least 2 visible hands
+  const visibleHands = tableState.players.filter((p) => p.cards && !p.folded).length;
+  const currentEquities = visibleHands >= 2 && allInEquityData
+    ? (allInEquityData[tableState.board.length]?.players || null)
+    : null;
+
+  // All street equities for evolution display
+  const streetEquities = useMemo(() => {
+    if (!allInEquityData) return [];
+    // Sort by board length: preflop, flop, turn, river
+    return Object.entries(allInEquityData)
+      .sort(([a], [b]) => Number(a) - Number(b))
+      .map(([, v]) => v);
+  }, [allInEquityData]);
+
   return {
     tableState,
+    currentEquities,
+    streetEquities,
     actionIndex,
     totalActions: actions.length,
     stepIndex,

@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import type { TableState, PlayerState } from '../../hooks/useReplayerState';
+import type { TableState, PlayerState, PlayerEquity } from '../../hooks/useReplayerState';
 
 interface QuickPlayerStats {
   vpip: number;
@@ -15,6 +15,7 @@ interface TableViewProps {
   currentBB?: number;       // current big blind for BB conversion
   showBB?: boolean;         // display stacks/bets in BB instead of chips
   playerStats?: Record<string, QuickPlayerStats>;
+  equities?: PlayerEquity[] | null; // current equity per player (all-in)
   onPlayerClick?: (playerName: string) => void;
 }
 
@@ -93,7 +94,7 @@ function getPositionLabels(players: PlayerState[], buttonSeat: number): Map<numb
   return labels;
 }
 
-export default function TableView({ state, buttonSeat, bountyChipRatio, currentBB, showBB, playerStats, onPlayerClick }: TableViewProps) {
+export default function TableView({ state, buttonSeat, bountyChipRatio, currentBB, showBB, playerStats, equities, onPlayerClick }: TableViewProps) {
   // Which player index sits at position 0 (bottom). Default: hero.
   const [anchorPlayerIdx, setAnchorPlayerIdx] = useState<number | null>(null);
 
@@ -208,6 +209,7 @@ export default function TableView({ state, buttonSeat, bountyChipRatio, currentB
             currentBB={currentBB}
             showBB={showBB}
             quickStats={playerStats?.[player.name]}
+            equity={equities?.find((e) => e.name === player.name)?.equity}
             onPlayerClick={onPlayerClick}
             onContextMenu={(e) => handleContextMenu(e, playerIdx)}
           />
@@ -217,7 +219,7 @@ export default function TableView({ state, buttonSeat, bountyChipRatio, currentB
   );
 }
 
-function PlayerSeat({ player, x, y, isButton, positionLabel, onContextMenu, bountyChipRatio, currentBB, showBB, quickStats, onPlayerClick }: {
+function PlayerSeat({ player, x, y, isButton, positionLabel, onContextMenu, bountyChipRatio, currentBB, showBB, quickStats, equity, onPlayerClick }: {
   player: PlayerState;
   x: number;
   y: number;
@@ -228,6 +230,7 @@ function PlayerSeat({ player, x, y, isButton, positionLabel, onContextMenu, boun
   currentBB?: number;
   showBB?: boolean;
   quickStats?: QuickPlayerStats;
+  equity?: number;
   onPlayerClick?: (name: string) => void;
 }) {
   const opacity = player.folded ? 'opacity-40' : 'opacity-100';
@@ -278,6 +281,25 @@ function PlayerSeat({ player, x, y, isButton, positionLabel, onContextMenu, boun
           </>
         ) : null}
       </div>
+
+      {/* Equity bar */}
+      {equity != null && !player.folded && (
+        <div className="mb-1 w-20 mx-auto">
+          <div className="h-1.5 bg-gray-700 rounded-full overflow-hidden">
+            <div
+              className={`h-full rounded-full transition-all duration-300 ${
+                equity >= 0.5 ? 'bg-emerald-400' : equity >= 0.3 ? 'bg-yellow-400' : 'bg-red-400'
+              }`}
+              style={{ width: `${(equity * 100).toFixed(0)}%` }}
+            />
+          </div>
+          <p className={`text-[10px] font-mono font-bold text-center ${
+            equity >= 0.5 ? 'text-emerald-400' : equity >= 0.3 ? 'text-yellow-400' : 'text-red-400'
+          }`}>
+            {(equity * 100).toFixed(1)}%
+          </p>
+        </div>
+      )}
 
       {/* Player box */}
       <div

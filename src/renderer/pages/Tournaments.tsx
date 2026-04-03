@@ -25,7 +25,7 @@ interface Tournament {
   profit: number;
 }
 
-type SortKey = 'start_time' | 'room' | 'name' | 'buy_in' | 'total_players' | 'hero_finish_position' | 'hero_prize' | 'profit';
+type SortKey = 'start_time' | 'room' | 'name' | 'buy_in' | 'total_players' | 'hero_finish_position' | 'hero_prize' | 'profit' | 'hand_count';
 type SortDir = 'asc' | 'desc';
 
 const PAGE_SIZE = 25;
@@ -41,9 +41,6 @@ export default function Tournaments() {
 
   // Local filters
   const [searchName, setSearchName] = useState('');
-  const [dateFrom, setDateFrom] = useState('');
-  const [dateTo, setDateTo] = useState('');
-  const [filterRoom, setFilterRoom] = useState<string>('');
 
   useEffect(() => {
     let cancelled = false;
@@ -72,27 +69,16 @@ export default function Tournaments() {
     return () => { cancelled = true; };
   }, [filters]);
 
-  // Client-side filtering (search + precise dates)
+  // Client-side filtering (search by name)
   const filtered = useMemo(() => {
+    if (!searchName) return tournaments;
+    const q = searchName.toLowerCase();
     return tournaments.filter((t) => {
-      if (searchName) {
-        const q = searchName.toLowerCase();
-        const name = (t.name || '').toLowerCase();
-        const id = (t.tournament_id || '').toLowerCase();
-        if (!name.includes(q) && !id.includes(q)) return false;
-      }
-      if (filterRoom && t.room !== filterRoom) return false;
-      if (dateFrom) {
-        const tDate = t.start_time ? t.start_time.slice(0, 10) : '';
-        if (tDate < dateFrom) return false;
-      }
-      if (dateTo) {
-        const tDate = t.start_time ? t.start_time.slice(0, 10) : '';
-        if (tDate > dateTo) return false;
-      }
-      return true;
+      const name = (t.name || '').toLowerCase();
+      const id = (t.tournament_id || '').toLowerCase();
+      return name.includes(q) || id.includes(q);
     });
-  }, [tournaments, searchName, filterRoom, dateFrom, dateTo]);
+  }, [tournaments, searchName]);
 
   const sorted = useMemo(() => {
     const copy = [...filtered];
@@ -141,65 +127,15 @@ export default function Tournaments() {
         </div>
       </div>
 
-      <FilterBar />
-
-      {/* Local filters: search + room + dates */}
-      <div className="flex items-center gap-3 flex-wrap">
+      <FilterBar searchSlot={
         <input
           type="text"
           placeholder="Rechercher par nom..."
           value={searchName}
           onChange={(e) => { setSearchName(e.target.value); setPage(0); }}
-          className="w-56 bg-poker-card border border-poker-border rounded px-3 py-1.5 text-sm text-gray-200 placeholder-gray-600 focus:border-poker-green focus:outline-none"
+          className="w-48 bg-poker-dark border border-poker-border rounded px-3 py-1 text-xs text-gray-200 placeholder-gray-600 focus:border-poker-green focus:outline-none"
         />
-
-        {/* Room filter */}
-        <div className="flex items-center gap-1">
-          {[
-            { value: '', label: 'Toutes' },
-            { value: 'winamax', label: 'Winamax' },
-            { value: 'pokerstars', label: 'PokerStars' },
-            { value: 'pmu', label: 'PMU' },
-          ].map(({ value, label }) => (
-            <button
-              key={value}
-              onClick={() => { setFilterRoom(value); setPage(0); }}
-              className={`px-2.5 py-1 text-xs rounded transition-colors ${
-                filterRoom === value
-                  ? 'bg-poker-green text-white'
-                  : 'bg-poker-dark text-gray-400 hover:text-gray-200'
-              }`}
-            >
-              {label}
-            </button>
-          ))}
-        </div>
-
-        <div className="flex items-center gap-2">
-          <span className="text-xs text-gray-500">Du</span>
-          <input
-            type="date"
-            value={dateFrom}
-            onChange={(e) => { setDateFrom(e.target.value); setPage(0); }}
-            className="bg-poker-card border border-poker-border rounded px-2 py-1.5 text-xs text-gray-300 focus:border-poker-green focus:outline-none [color-scheme:dark]"
-          />
-          <span className="text-xs text-gray-500">au</span>
-          <input
-            type="date"
-            value={dateTo}
-            onChange={(e) => { setDateTo(e.target.value); setPage(0); }}
-            className="bg-poker-card border border-poker-border rounded px-2 py-1.5 text-xs text-gray-300 focus:border-poker-green focus:outline-none [color-scheme:dark]"
-          />
-          {(dateFrom || dateTo || searchName || filterRoom) && (
-            <button
-              onClick={() => { setSearchName(''); setDateFrom(''); setDateTo(''); setFilterRoom(''); setPage(0); }}
-              className="text-xs text-gray-500 hover:text-gray-300"
-            >
-              Effacer
-            </button>
-          )}
-        </div>
-      </div>
+      } />
 
       {loading ? (
         <div className="flex items-center justify-center h-64">
@@ -219,6 +155,7 @@ export default function Tournaments() {
                   <SortHeader label="Room" sortKey="room" current={sortKey} dir={sortDir} onClick={toggleSort} />
                   <SortHeader label="Tournoi" sortKey="name" current={sortKey} dir={sortDir} onClick={toggleSort} />
                   <SortHeader label="Buy-in" sortKey="buy_in" current={sortKey} dir={sortDir} onClick={toggleSort} align="right" />
+                  <SortHeader label="Mains" sortKey="hand_count" current={sortKey} dir={sortDir} onClick={toggleSort} align="right" />
                   <SortHeader label="Joueurs" sortKey="total_players" current={sortKey} dir={sortDir} onClick={toggleSort} align="right" />
                   <SortHeader label="Finish" sortKey="hero_finish_position" current={sortKey} dir={sortDir} onClick={toggleSort} align="right" />
                   <SortHeader label="Prize" sortKey="hero_prize" current={sortKey} dir={sortDir} onClick={toggleSort} align="right" />
@@ -248,6 +185,9 @@ export default function Tournaments() {
                         {t.effective_cost != null && t.effective_cost !== t.buy_in + (t.bounty || 0) + t.fee && (
                           <span className="text-[9px] text-yellow-500 ml-1" title={`Buy-in original: ${t.buy_in}€${t.bounty ? ` + ${t.bounty}€ KO` : ''} + ${t.fee}€`}>*</span>
                         )}
+                      </td>
+                      <td className="px-3 py-2.5 text-right font-mono text-gray-400">
+                        {t.hand_count || '—'}
                       </td>
                       <td className="px-3 py-2.5 text-right text-gray-400">
                         {t.total_players || '—'}

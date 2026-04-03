@@ -172,13 +172,17 @@ export default function Tournaments() {
                       className="border-b border-poker-border/50 hover:bg-white/5 cursor-pointer transition-colors"
                     >
                       <td className="px-3 py-2.5 text-gray-400 text-xs">
-                        {t.start_time ? new Date(t.start_time).toLocaleDateString('fr-FR') : '—'}
+                        <div>{t.start_time ? new Date(t.start_time).toLocaleDateString('fr-FR') : '—'}</div>
+                        {t.start_time && (
+                          <div className="text-gray-600 text-[10px]">{new Date(t.start_time).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}</div>
+                        )}
                       </td>
                       <td className="px-3 py-2.5">
                         <RoomBadge room={t.room} />
                       </td>
-                      <td className="px-3 py-2.5 text-gray-300 truncate max-w-48">
-                        {t.name || `#${t.tournament_id}`}
+                      <td className="px-3 py-2.5 truncate max-w-48">
+                        <div className="text-gray-300">{t.name || `#${t.tournament_id}`}</div>
+                        <div className="text-[10px] text-gray-600 font-mono">#{t.tournament_id}</div>
                       </td>
                       <td className="px-3 py-2.5 text-right font-mono text-gray-300">
                         {cost.toFixed(2)}€

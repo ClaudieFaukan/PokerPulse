@@ -107,6 +107,16 @@ export default function TournamentDetail() {
     setEditingCost(false);
   };
 
+  // Compute net result per hand: compare stack_before of next hand vs current hand
+  const handResults: number[] = data.hands.map((h, i) => {
+    const nextHand = data.hands[i + 1];
+    if (nextHand) {
+      return nextHand.hero_stack_before - h.hero_stack_before;
+    }
+    // Last hand: use hero_won as approximation (prize - cost is at tournament level)
+    return h.hero_won > 0 ? h.hero_won : -(h.hero_stack_before);
+  });
+
   // Stack progression data with EV line
   // stackEV tracks what stack would be if hero won/lost exactly EV at each all-in
   let evCumDiff = 0;
@@ -136,7 +146,20 @@ export default function TournamentDetail() {
         >
           ← Retour
         </button>
-        <h2 className="text-2xl font-bold truncate">{data.name || `Tournament #${data.tournament_id}`}</h2>
+        <div>
+          <h2 className="text-2xl font-bold truncate">{data.name || `Tournament #${data.tournament_id}`}</h2>
+          <div className="flex items-center gap-2 mt-0.5">
+            <span className="text-xs text-gray-500 font-mono">#{data.tournament_id}</span>
+            {data.start_time && (
+              <>
+                <span className="text-gray-700">·</span>
+                <span className="text-xs text-gray-500">
+                  {new Date(data.start_time).toLocaleDateString('fr-FR')} à {new Date(data.start_time).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}
+                </span>
+              </>
+            )}
+          </div>
+        </div>
         <span className={`px-2 py-0.5 text-xs rounded font-medium uppercase ${
           data.room === 'winamax' ? 'bg-red-500/20 text-red-400' :
           data.room === 'pokerstars' ? 'bg-blue-500/20 text-blue-400' :
@@ -228,19 +251,22 @@ export default function TournamentDetail() {
         const handCount = hands.length;
 
         // bb/100: net chips won converted to BB per 100 hands
-        const handsWithBB = hands.filter((h) => h.big_blind > 0);
-        const totalBBWon = handsWithBB.reduce((s, h) => s + (h.hero_won || 0) / h.big_blind, 0);
+        const handsWithBB = hands.filter((h, i) => h.big_blind > 0 && i < handResults.length);
+        const totalBBWon = handsWithBB.reduce((s, h, i) => {
+          const idx = hands.indexOf(h);
+          return s + (handResults[idx] || 0) / h.big_blind;
+        }, 0);
         const bb100 = handsWithBB.length > 0 ? (totalBBWon / handsWithBB.length) * 100 : 0;
 
         // All-in EV
-        const allinHands = hands.filter((h) => h.is_hero_allin);
+        const allinHands = hands.map((h, i) => ({ ...h, _idx: i })).filter((h) => h.is_hero_allin);
         const allinWithEV = allinHands.filter((h) => h.hero_ev_diff != null);
         const totalEvDiff = allinWithEV.reduce((s, h) => s + (h.hero_ev_diff || 0), 0);
-        const allinWon = allinHands.filter((h) => h.hero_won > 0).length;
+        const allinWon = allinHands.filter((h) => handResults[h._idx] > 0).length;
 
         // Showdown stats
-        const showdownHands = hands.filter((h) => h.went_to_showdown);
-        const showdownWon = showdownHands.filter((h) => h.hero_won > 0).length;
+        const showdownHands = hands.map((h, i) => ({ ...h, _idx: i })).filter((h) => h.went_to_showdown);
+        const showdownWon = showdownHands.filter((h) => handResults[h._idx] > 0).length;
         const showdownPct = handCount > 0 ? (showdownHands.length / handCount) * 100 : 0;
         const showdownWinRate = showdownHands.length > 0 ? (showdownWon / showdownHands.length) * 100 : 0;
 
@@ -431,12 +457,16 @@ export default function TournamentDetail() {
                 <td className="px-3 py-2 text-right font-mono text-gray-400 text-xs">
                   {h.total_pot?.toLocaleString() || '—'}
                 </td>
-                <td className={`px-3 py-2 text-right font-mono text-xs font-medium ${
-                  (h.hero_won || 0) > 0 ? 'text-emerald-400' :
-                  (h.hero_won || 0) < 0 ? 'text-red-400' : 'text-gray-500'
-                }`}>
-                  {(h.hero_won || 0) > 0 ? '+' : ''}{h.hero_won != null ? h.hero_won.toLocaleString() : '0'}
-                </td>
+                {(() => {
+                  const net = handResults[i];
+                  return (
+                    <td className={`px-3 py-2 text-right font-mono text-xs font-medium ${
+                      net > 0 ? 'text-emerald-400' : net < 0 ? 'text-red-400' : 'text-gray-500'
+                    }`}>
+                      {net > 0 ? '+' : ''}{net.toLocaleString()}
+                    </td>
+                  );
+                })()}
                 <td className="px-3 py-2 text-center">
                   {h.is_hero_allin && <span className="text-[10px] bg-red-500/20 text-red-400 px-1 rounded">AI</span>}
                   {h.went_to_showdown && <span className="text-[10px] bg-blue-500/20 text-blue-400 px-1 rounded ml-1">SD</span>}

@@ -200,6 +200,11 @@ export default function Replayer() {
   const heroCards: [string, string] | null =
     hand.hero_card1 && hand.hero_card2 ? [hand.hero_card1, hand.hero_card2] : null;
 
+  const heroFoldedPreflop = hand.actions.some(
+    (a) => a.is_hero && a.action_type === 'fold' && a.street === 'preflop'
+  );
+  const handPlayed = !heroFoldedPreflop;
+
   return (
     <div className="p-4 space-y-2 h-full flex flex-col">
       {/* Header */}
@@ -265,21 +270,6 @@ export default function Replayer() {
             className="px-3 py-1 text-xs bg-poker-blue/20 border border-poker-blue/30 rounded text-poker-blue hover:bg-poker-blue/30 transition-colors"
           >
             {copied ? 'Copié !' : 'Analyser avec Claude'}
-          </button>
-          {/* Nav */}
-          <button
-            onClick={() => prevHandId && navigate(`/replayer/${prevHandId}`)}
-            disabled={!prevHandId}
-            className="px-2 py-1 text-xs bg-poker-card border border-poker-border rounded text-gray-400 hover:text-gray-200 disabled:opacity-30 disabled:cursor-not-allowed"
-          >
-            ← Préc.
-          </button>
-          <button
-            onClick={() => nextHandId && navigate(`/replayer/${nextHandId}`)}
-            disabled={!nextHandId}
-            className="px-2 py-1 text-xs bg-poker-card border border-poker-border rounded text-gray-400 hover:text-gray-200 disabled:opacity-30 disabled:cursor-not-allowed"
-          >
-            Suiv. →
           </button>
         </div>
       </div>
@@ -427,6 +417,7 @@ export default function Replayer() {
         totalActions={totalSteps}
         isPlaying={isPlaying}
         speed={speed}
+        handPlayed={handPlayed}
         onTogglePlay={togglePlay}
         onNext={next}
         onPrev={prev}

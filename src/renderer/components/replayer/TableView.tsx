@@ -268,7 +268,7 @@ function PlayerSeat({ player, x, y, isButton, positionLabel, onContextMenu, boun
       )}
 
       {/* Cards */}
-      <div className="flex gap-0.5 justify-center mb-1 h-8">
+      <div className="flex gap-0.5 justify-center mb-1 h-11">
         {player.cards ? (
           <>
             <MiniCard card={player.cards[0]} />
@@ -276,8 +276,8 @@ function PlayerSeat({ player, x, y, isButton, positionLabel, onContextMenu, boun
           </>
         ) : !player.folded ? (
           <>
-            <div className="w-5 h-7 rounded-sm bg-blue-900 border border-blue-700/50" />
-            <div className="w-5 h-7 rounded-sm bg-blue-900 border border-blue-700/50" />
+            <div className="w-7 h-10 rounded-sm bg-blue-900 border border-blue-700/50" />
+            <div className="w-7 h-10 rounded-sm bg-blue-900 border border-blue-700/50" />
           </>
         ) : null}
       </div>
@@ -392,16 +392,17 @@ function ChipStack({ amount, small = false }: { amount: number; small?: boolean 
 
 function CardDisplay({ card }: { card: string }) {
   if (!card || card.length < 2) return null;
-  const suit = card[1];
+  const rank = card.length === 3 ? card.slice(0, 2) : card[0];
+  const suit = card[card.length - 1];
   const isRed = suit === 'h' || suit === 'd';
   const suitSymbol = { h: '♥', d: '♦', c: '♣', s: '♠' }[suit] || suit;
 
   return (
-    <div className="w-10 h-14 rounded bg-white flex flex-col items-center justify-center shadow-md">
-      <span className={`text-sm font-bold leading-none ${isRed ? 'text-red-600' : 'text-gray-900'}`}>
-        {card[0]}
+    <div className="w-12 h-17 rounded bg-white flex flex-col items-center justify-center shadow-md px-1" style={{ width: 48, height: 68 }}>
+      <span className={`text-base font-bold leading-none ${isRed ? 'text-red-600' : 'text-gray-900'}`}>
+        {rank}
       </span>
-      <span className={`text-base leading-none ${isRed ? 'text-red-600' : 'text-gray-900'}`}>
+      <span className={`text-lg leading-none ${isRed ? 'text-red-600' : 'text-gray-900'}`}>
         {suitSymbol}
       </span>
     </div>
@@ -410,16 +411,17 @@ function CardDisplay({ card }: { card: string }) {
 
 function MiniCard({ card }: { card: string }) {
   if (!card || card.length < 2) return null;
-  const suit = card[1];
+  const rank = card.length === 3 ? card.slice(0, 2) : card[0];
+  const suit = card[card.length - 1];
   const isRed = suit === 'h' || suit === 'd';
   const suitSymbol = { h: '♥', d: '♦', c: '♣', s: '♠' }[suit] || suit;
 
   return (
-    <div className="w-5 h-7 rounded-sm bg-white flex flex-col items-center justify-center shadow text-[8px]">
+    <div className="w-7 h-10 rounded-sm bg-white flex flex-col items-center justify-center shadow text-[10px]">
       <span className={`font-bold leading-none ${isRed ? 'text-red-600' : 'text-gray-900'}`}>
-        {card[0]}
+        {rank}
       </span>
-      <span className={`leading-none ${isRed ? 'text-red-600' : 'text-gray-900'}`}>
+      <span className={`text-xs leading-none ${isRed ? 'text-red-600' : 'text-gray-900'}`}>
         {suitSymbol}
       </span>
     </div>

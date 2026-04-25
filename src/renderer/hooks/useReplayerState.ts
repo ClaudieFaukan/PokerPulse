@@ -141,7 +141,7 @@ const SPEED_MAP: Record<number, number> = {
 };
 
 export function useReplayerState(hand: ReplayerHand | null, bountyChipRatio?: number) {
-  const [stepIndex, setStepIndex] = useState(-1); // -1 = initial state
+  const [stepIndex, setStepIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [speed, setSpeed] = useState(1);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -166,7 +166,7 @@ export function useReplayerState(hand: ReplayerHand | null, bountyChipRatio?: nu
   }, [steps, stepIndex]);
 
   useEffect(() => {
-    setStepIndex(-1);
+    setStepIndex(0);
     setIsPlaying(false);
   }, [hand?.id]);
 
@@ -201,12 +201,12 @@ export function useReplayerState(hand: ReplayerHand | null, bountyChipRatio?: nu
 
   const prev = useCallback(() => {
     setIsPlaying(false);
-    setStepIndex((prev) => Math.max(prev - 1, -1));
+    setStepIndex((prev) => Math.max(prev - 1, 0));
   }, []);
 
   const goToStart = useCallback(() => {
     setIsPlaying(false);
-    setStepIndex(-1);
+    setStepIndex(0);
   }, []);
 
   const goToEnd = useCallback(() => {
@@ -216,7 +216,7 @@ export function useReplayerState(hand: ReplayerHand | null, bountyChipRatio?: nu
 
   const goTo = useCallback((idx: number) => {
     setIsPlaying(false);
-    setStepIndex(Math.max(-1, Math.min(idx, totalSteps - 1)));
+    setStepIndex(Math.max(0, Math.min(idx, totalSteps - 1)));
   }, [totalSteps]);
 
   const tableState = buildTableState(hand, actionIndex, boardReveals, bountyChipRatio);

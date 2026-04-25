@@ -28,6 +28,7 @@
       "dist/**/*",
       "node_modules/**/*",
       "!node_modules/**/build/**",
+      "node_modules/better-sqlite3/build/**",
       "!node_modules/**/*.md"
     ],
     "mac": {
@@ -57,6 +58,7 @@
   },
   "type": "commonjs",
   "dependencies": {
+    "better-sqlite3": "^12.8.0",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
     "react-router-dom": "^7.13.2",
@@ -70,7 +72,6 @@
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^6.0.1",
-    "better-sqlite3": "^12.8.0",
     "concurrently": "^9.2.1",
     "electron": "^41.0.4",
     "electron-builder": "^26.8.1",
